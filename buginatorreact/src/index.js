@@ -4,43 +4,17 @@ import './reset.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import interceptors from './interceptors';
+import { BrowserRouter } from 'react-router-dom'
+// import axios from 'axios';
 
-
-import axios from 'axios';
-
-// For GET requests
-axios.interceptors.request.use(
-  (req) => {
-     if(!req.headers.Authorization){   
-      req.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
-     }
-     return req;
-  },
-  (err) => {
-     return Promise.reject(err);
-  }
-);
-
-// For POST requests
-axios.interceptors.response.use(
-  (res) => {
-    if (res.status === 401) {
-      console.log('Unauthorized 1');
-   }
-     return res;
-  },
-  (err) => {
-    if (err.status === 401) {
-      console.log('Unauthorized 2');
-   }
-     return Promise.reject(err);
-  }
-);
-
+interceptors();
 
 ReactDOM.render(
   <React.StrictMode>
+    <BrowserRouter>
     <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
